@@ -1,6 +1,6 @@
 # MOXY OSS RFCs
 
-This repository is intended to be used for reviewing submitted RFCs related to additions or changes to MOXY OSS projects and processes.
+This repository is intended to be used for reviewing submitted RFCs (request for comments) related to additions or changes to MOXY OSS projects and processes.
 
 The MOXY OSS RFC (request for comments) process is intended to provide a consistent way for MOXY to facilitate the transparency of decisions made for features and changes in OSS related projects and processes.
 
