@@ -13,6 +13,7 @@ The RFC process will:
 - Allow domain experts to have input in decisions.
 - Manage the risk of decisions made.
 - Have a snapshot of context for the future.
+- Triage future work according to its relevance.
 
 **[See open RFCs](https://github.com/moxystudio/rfcs/pulls)**.
 
