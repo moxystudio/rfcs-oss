@@ -2,7 +2,7 @@
 
 This repository is intended to be used for reviewing submitted RFCs (request for comments) related to additions or changes to MOXY OSS projects and processes.
 
-The MOXY OSS RFC (request for comments) process is intended to provide a consistent way for MOXY to facilitate the transparency of decisions made for features and changes in OSS related projects and processes.
+The MOXY OSS RFC process aims to provide a consistent way for MOXY to facilitate the transparency of decisions made for features and changes in OSS related projects and processes.
 
 In short, an MOXY RFC is a proposal for a significant change or a new feature.
 
@@ -38,7 +38,7 @@ Ideally, the RFC should gather consensus and culminate in a collaborative decisi
 
 ## Details on accepted RFCs
 
-Once an RFC is accepted then authors may implement it and submit the feature as a pull request to the associated repository. 'Accepted' is not a rubber stamp, and in particular still does not mean the feature will ultimately be merged; it does mean that the core team has agreed to it in principle and are amenable to merging it.
+Once an RFC is accepted, the authors may implement it and submit the feature as a pull request to the associated repository. 'Accepted' is not a rubber stamp, and in particular still does not mean the feature will ultimately be merged; it does mean that the core team has agreed to it in principle and are amenable to merging it.
 
 Furthermore, the fact that a given RFC has been accepted implies nothing about what priority is assigned to its implementation, nor whether anybody is currently working on it.
 
