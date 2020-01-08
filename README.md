@@ -4,7 +4,7 @@ This repository is intended to be used for reviewing submitted RFCs (request for
 
 The MOXY OSS RFC process aims to provide a consistent way for MOXY to facilitate the transparency of decisions made for features and changes in OSS related projects and processes.
 
-In short, an MOXY RFC is a proposal for a significant change or a new feature.
+In short, a MOXY RFC is a proposal for a significant change or a new feature.
 
 The RFC process will:
 
@@ -20,7 +20,7 @@ The RFC process will:
 ## Process outline
 
 - Copy `0000-template.md` to `rfcs/0000-my-subject.md`, where 'my-subject' is descriptive. Don't assign an RFC number yet.
-- Fill in the RFC. Put care into the details: RFCs that do not present convincing motivation, demonstrate understanding of the impact of the design, or are disingenuous about the drawbacks or alternatives tend to be poorly-received.
+- Fill in the RFC. Put care into the details: RFCs that do not present convincing motivation, demonstrate an understanding of the impact of the design, or are disingenuous about the drawbacks of alternatives tend to be poorly-received.
 - Submit a pull request. Change `0000` within the filename to the pull request ID and make a commit.
 - As a pull request, the RFC will receive design feedback from MOXY team members, and the author should be prepared to revise it in response.
 - Build consensus and integrate feedback. RFCs that have broad support are much more likely to make progress than those that don't receive any comments.
@@ -40,11 +40,11 @@ Ideally, the RFC should gather consensus and culminate in a collaborative decisi
 
 ## Details on accepted RFCs
 
-Once an RFC is accepted, the authors may implement it and submit the feature as a pull request to the associated repository. 'Accepted' is not a rubber stamp, and in particular still does not mean the feature will ultimately be merged; it does mean that it has been endorsed in principle and are amenable to merging it.
+Once an RFC is accepted, the authors may implement it and submit the feature as a pull request to the associated repository. 'Accepted' is not a rubber stamp, and in particular, still does not mean the feature will ultimately be merged; it does mean that it has been endorsed in principle and are amenable to merging it.
 
 Furthermore, the fact that a given RFC has been accepted implies nothing about what priority is assigned to its implementation, nor whether anybody is currently working on it.
 
-Modifications to accepted RFC's can be done in followup PR's.
+Modifications to accepted RFCs can be done in followup PRs.
 
 ## Credits
 
