@@ -1,5 +1,5 @@
 - Start Date: (fill me in with today's date, YYYY-MM-DD)
-- Project: (fill in the related project)
+- Project: (fill in the related project, and optionally its version)
 - Reference Issues: (fill in existing related issues, if any)
 - Implementation PR: (leave this empty)
 
