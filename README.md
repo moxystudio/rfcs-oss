@@ -8,7 +8,7 @@ In short, an MOXY RFC is a proposal for a significant change or a new feature.
 
 The RFC process will:
 
-- Facilitate the transparency of decision making by MOXY to end-users, including MOXY members themselves and the community.
+- Facilitate the transparency of decision making by MOXY to end-users, including MOXY team members themselves and the community.
 - Enable individual contributors to help make decisions.
 - Allow domain experts to have input in decisions.
 - Manage the risk of decisions made.
@@ -35,11 +35,11 @@ When applicable, reviewers should use GitHub's suggestions feature to make it ea
 
 ## Acceptance or dismissal of RFCs
 
-Ideally, the RFC should gather consensus and culminate in a collaborative decision. However, when a collaborative decision is not possible, people with different stakes have different decision power. As an example, authors of the project the RFC relates to have more weight than others. MOXY's CTO and Engineer Leads may also express their sentiment to help make a final decision.
+Ideally, the RFC should gather consensus and culminate in a collaborative decision. However, when a collaborative decision is not possible, people with different stakes have different decision power. As an example, authors and maintainers of the project the RFC relates to have more weight than others. MOXY's CTO and Engineer Leads may also express their sentiment to help make a final decision.
 
 ## Details on accepted RFCs
 
-Once an RFC is accepted, the authors may implement it and submit the feature as a pull request to the associated repository. 'Accepted' is not a rubber stamp, and in particular still does not mean the feature will ultimately be merged; it does mean that the core team has agreed to it in principle and are amenable to merging it.
+Once an RFC is accepted, the authors may implement it and submit the feature as a pull request to the associated repository. 'Accepted' is not a rubber stamp, and in particular still does not mean the feature will ultimately be merged; it does mean that it has been endorsed in principle and are amenable to merging it.
 
 Furthermore, the fact that a given RFC has been accepted implies nothing about what priority is assigned to its implementation, nor whether anybody is currently working on it.
 
