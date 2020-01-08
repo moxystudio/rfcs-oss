@@ -21,7 +21,8 @@ The RFC process will:
 
 - Copy `0000-template.md` to `rfcs/0000-my-subject.md`, where 'my-subject' is descriptive. Don't assign an RFC number yet.
 - Fill in the RFC. Put care into the details: RFCs that do not present convincing motivation, demonstrate understanding of the impact of the design, or are disingenuous about the drawbacks or alternatives tend to be poorly-received.
-- Submit a pull request. As a pull request the RFC will receive design feedback from the larger community, and the author should be prepared to revise it in response.
+- Submit a pull request. Change `0000` within the filename to the pull request ID and make a commit.
+- As a pull request, the RFC will receive design feedback from MOXY team members, and the author should be prepared to revise it in response.
 - Build consensus and integrate feedback. RFCs that have broad support are much more likely to make progress than those that don't receive any comments.
 - When the author decides that the RFC is finalized, a new final comment period is given (usually 1 week) and the pull request is tagged with `final comments`.
 - An RFC may be rejected after public discussion has settled and comments have been made summarizing the rationale for rejection. Once rejected, the RFC's associated pull request shall be closed by a MOXY team member.
