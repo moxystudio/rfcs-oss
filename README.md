@@ -30,7 +30,7 @@ The RFC process will:
 
 ## Reviewing RFCs
 
-Members of the MOXY team will attempt to review some set of open RFC pull requests regularly. If a MOXY team member believes an RFC PR is ready to be accepted, they can approve the PR using GitHub's review feature to signal their approval of the RFC.
+Members of the MOXY team will attempt to review some set of open RFC pull requests on a regular basis. If a MOXY team member believes an RFC PR is ready to be accepted, they can approve the PR using GitHub's review feature to signal their approval of the RFC.
 
 When applicable, reviewers should use GitHub's suggestions feature to make it easier to incorporate changes to the document.
 
