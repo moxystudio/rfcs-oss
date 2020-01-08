@@ -44,7 +44,7 @@ Once an RFC is accepted, the authors may implement it and submit the feature as 
 
 Furthermore, the fact that a given RFC has been accepted implies nothing about what priority is assigned to its implementation, nor whether anybody is currently working on it.
 
-Modifications to accepted RFCs can be done in followup PRs.
+Modifications to accepted RFCs can be done in follow-up PRs.
 
 ## Credits
 
