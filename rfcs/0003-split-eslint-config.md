@@ -37,8 +37,8 @@ Base configs sets the foundations in terms of eslint settings. After analyzing, 
 **Base** config for Node.js based projects (e.g.: APIs) and libraries.
 
 - Configures all our base rules
-- Sets ECMAScript version `es9` by default
-- Turns on `node` environment
+- Sets ECMAScript version `es10` by default (Node.js doesn't yet implement many `es11` features)
+- Turns on `node` and `commonjs` environment
 
 ```js
 {
@@ -58,14 +58,14 @@ Other ECMAScript versions might be requested by adding `/<version>.js`, like so:
 }
 ```
 
-ℹ️ Future versions of Node.js will have support for ES Modules, see https://nodejs.org/api/esm.html. Once that becomes available, we may upgrade `@moxy/eslint-config-node` to use ES Modules. If necessary, we may create `@moxy/eslint-config-node-legacy` for older projects, while keeping the base rules up to date.
+ℹ️ Future versions of Node.js will [have support](https://nodejs.org/api/esm.html) for ES Modules. Once ES modules becomes mainstream within the Node.js ecosystem, we may upgrade `@moxy/eslint-config-node` to force using ES Modules instead of CommonJS. If necessary, we may create `@moxy/eslint-config-node-legacy` for older projects, while keeping the base rules up to date.
 
 ### `@moxy/eslint-config-browser`
 
 **Base** config for browser based projects and libraries.
 
 - Configures all our base rules
-- Sets ECMAScript version to latest
+- Sets ECMAScript version to latest (currently `es11`)
 - Turns on `browser` environment
 - Turns on `es-modules`
 - Turns on `babel-parser`
@@ -78,7 +78,7 @@ Other ECMAScript versions might be requested by adding `/<version>.js`, like so:
 }
 ```
 
-As listed above, these type of projects will be using Babel. Since Babel will be taking care of making code compatibility with target browsers, we can always use the latest ECMAScript version.
+As listed above, these type of projects will be using Babel. Since Babel will be taking care of making code compatible with target browsers, we can always use the latest ECMAScript version.
 
 If the project uses `workers` or `service-workers`, you will have to enable it manually via the `env` key.
 
@@ -87,7 +87,7 @@ If the project uses `workers` or `service-workers`, you will have to enable it m
 **Base** config for isomorphic projects (e.g.: Next.js) and libraries.
 
 - Configures all our base rules
-- Sets ECMAScript version `es9`
+- Sets ECMAScript version to latest (currently `es11`)
 - Turns on `node` and `browser` environments
 - Turns on `es-modules`
 - Turns on `babel-parser`
@@ -100,7 +100,7 @@ If the project uses `workers` or `service-workers`, you will have to enable it m
 }
 ```
 
-As listed above, these type of projects will be using Babel. Since Babel will be taking care of making code compatibility with target browsers, we can always use the latest ECMAScript version.
+As listed above, these type of projects will be using Babel. Since Babel will be taking care of making code compatible with target browsers and Node.js version, we can always use the latest ECMAScript version.
 
 If the project uses `workers` or `service-workers`, you will have to enable it manually via the `env` key.
 
