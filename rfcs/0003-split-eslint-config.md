@@ -18,6 +18,8 @@ The monolith has several disadvantages:
 - It's becoming difficult to understand which addons we need to activate for a particular project.
 - It's becoming hard to maintain everything, especially tests.
 
+⚠️ To make things worst, the upcoming [`babel-eslint`](https://github.com/babel/babel-eslint) major version, which we use for the `babel-parser` addon, defines `@babel/core` as a peer dependency. Projects that don't use Babel will have to ignore the npm warning: `requires a peer of babel-eslint@^xxx but none was installed.`.
+
 # Detailed design
 
 My proposal is to split `@moxy/eslint-config` into several packages, under the same repository (mono-repo).
