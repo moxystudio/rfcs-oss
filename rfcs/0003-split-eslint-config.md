@@ -14,7 +14,7 @@ However, as the time passed by, `@moxy/eslint-config` has become a monolith with
 
 The monolith has several disadvantages:
 
-- The dependencies for all addons are installed, even if we just use or two addons.
+- The dependencies for all addons are installed, even if we just use one or two addons.
 - It's becoming difficult to understand which addons we need to activate for a particular project.
 - It's becoming hard to maintain everything, especially tests.
 
@@ -168,4 +168,4 @@ We may also leverage `screpto` to automate this for us.
 
 # Unresolved questions
 
-1. Should the base configs started with `@moxy/eslint-config-base-`, e.g.: `@moxy/eslint-config-base-node`?
+1. Should the base configs starte with `@moxy/eslint-config-base-`, e.g.: `@moxy/eslint-config-base-node`?
