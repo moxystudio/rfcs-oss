@@ -36,8 +36,9 @@ Base configs sets the foundations in terms of eslint settings. After analyzing, 
 
 **Base** config for Node.js based projects (e.g.: APIs) and libraries.
 
+- Configures all our base rules
 - Sets ECMAScript version `es9` by default
-- Turns on `node` environments
+- Turns on `node` environment
 
 ```js
 {
@@ -47,7 +48,7 @@ Base configs sets the foundations in terms of eslint settings. After analyzing, 
 }
 ```
 
-ℹ️Other ECMAScript versions might be requested by adding `/<version>.js`, like so:
+ℹ️ Other ECMAScript versions might be requested by adding `/<version>.js`, like so:
 
 ```js
 {
@@ -61,8 +62,9 @@ Base configs sets the foundations in terms of eslint settings. After analyzing, 
 
 **Base** config for browser based projects and libraries.
 
-- Sets ECMAScript version `es9`
-- Turns on `browser`, `service-worker` and `worker` environments
+- Configures all our base rules
+- Sets ECMAScript version to latest
+- Turns on `browser` environment
 - Turns on `es-modules`
 - Turns on `babel-parser`
 
@@ -74,12 +76,17 @@ Base configs sets the foundations in terms of eslint settings. After analyzing, 
 }
 ```
 
+ℹ️ There's no need to support several ECMAScript versions because it's assumed we are using Babel, which takes care of compatibility.
+
+ℹ️ If you use `workers` or `service-workers`, you will have to enable it manually via the `env` key.
+
 ### `@moxy/eslint-config-isomorphic`
 
-**Base** config for Isomorphic projects (e.g.: Next.js) and libraries.
+**Base** config for isomorphic projects (e.g.: Next.js) and libraries.
 
+- Configures all our base rules
 - Sets ECMAScript version `es9`
-- Turns on `node`, `browser`, `service-worker` and `worker` environments
+- Turns on `node` and `browser` environments
 - Turns on `es-modules`
 - Turns on `babel-parser`
 
@@ -90,6 +97,10 @@ Base configs sets the foundations in terms of eslint settings. After analyzing, 
     ]
 }
 ```
+
+ℹ️ There's no need to support several ECMAScript versions because it's assumed we are using Babel, which takes care of compatibility.
+
+ℹ️ If you use `workers` or `service-workers`, you will have to enable it manually via the `env` key.
 
 ## Enhancers for the base config
 
@@ -155,4 +166,4 @@ We may also leverage `screpto` to automate this for us.
 
 # Unresolved questions
 
-N/A.
+1. Should the base configs started with `@moxy/eslint-config-base-`, e.g.: `@moxy/eslint-config-base-node`?
