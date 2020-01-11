@@ -150,8 +150,8 @@ If the project uses `workers` or `service-workers`, you will have to enable it m
 
 # Drawbacks
 
-- Users have to install more than one eslint config related package
-- We need to become familiar with Lerna
+- Users have to install more than one eslint config related package.
+- We need to become familiar with Lerna.
 
 ℹ️ Getting familiar with Lerna might actually be a good thing as it will be useful for future projects.
 
