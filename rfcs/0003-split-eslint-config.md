@@ -168,4 +168,4 @@ We may also leverage `screpto` to automate this for us.
 
 # Unresolved questions
 
-1. Should the base configs starte with `@moxy/eslint-config-base-`, e.g.: `@moxy/eslint-config-base-node`?
+1. Should the base configs start with `@moxy/eslint-config-base-`, e.g.: `@moxy/eslint-config-base-node`?
