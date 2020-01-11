@@ -8,8 +8,7 @@ Create several eslint config packages instead of having a single package with mu
 
 # Motivation
 
-Currently, [`@moxy/eslint-config`](https://github.com/moxystudio/eslint-config) has the concept of addons that you use to compose your eslint configuration.
-As an example, there's a `react` addon that enables [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react) and customizes its rules.
+Currently, [`@moxy/eslint-config`](https://github.com/moxystudio/eslint-config) has the concept of addons that you use to compose your eslint configuration. As an example, there's a `react` addon that enables [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react) and customizes its rules.
 
 However, as the time passed by, `@moxy/eslint-config` has become a monolith with a fairly large set of addons. The trend is for the number of addons to continue to increase while we adopt new technologies, frameworks and libraries.
 
@@ -23,46 +22,74 @@ The monolith has several disadvantages:
 
 My proposal is to split `@moxy/eslint-config` into several packages, under the same repository (mono-repo).
 
-### `@moxy/eslint-config-base`
+## Base configs
 
-- Defines the base JS version (es8, es9)
-- Turns on `browser` and/or `node`
-- Turns on `babel-parser`
+Base configs sets the foundations in terms of eslint settings. After analyzing, there's currently three types of base configs amongst our packages:
+
+- Node.js only projects
+- Browser only projects
+- Isomorphic projects that work both in Node.js and Browser environments
+
+### `@moxy/eslint-config-node`
+
+**Base** config for Node.js based projects (e.g.: APIs) and libraries.
+
+- Sets ECMAScript version `es9` by default
+- Turns on `node` environments
+
+```js
+{
+    "extends": [
+        "@moxy/eslint-config-node",
+    ]
+}
+```
+
+ℹ️Other ECMAScript versions might be requested by adding `/<version>.js`, like so:
+
+```js
+{
+    "extends": [
+        "@moxy/eslint-config-node/es8",
+    ]
+}
+```
+
+### `@moxy/eslint-config-browser`
+
+**Base** config for browser based projects and libraries.
+
+- Sets ECMAScript version `es9`
+- Turns on `browser`, `service-worker` and `worker` environments
 - Turns on `es-modules`
-
-This can be done like so:
-
-```js
-{
-    "extends": [
-        "@moxy/eslint-config-base/es9",
-        "@moxy/eslint-config-base/node",
-        "@moxy/eslint-config-base/browser",
-        "@moxy/eslint-config-base/es-modules",
-        "@moxy/eslint-config-base/babel-parser"
-    ]
-}
-```
-
-To make this simpler, we may define **presets for common cases**. At the moment, there are two common cases: **node.js** & **web** based projects:
+- Turns on `babel-parser`
 
 ```js
 {
     "extends": [
-        // equivalent to es9 & node
-        "@moxy/eslint-config-base/preset-node"
+        "@moxy/eslint-config-browser"
     ]
 }
 ```
 
+### `@moxy/eslint-config-isomorphic`
+
+**Base** config for Isomorphic projects (e.g.: Next.js) and libraries.
+
+- Sets ECMAScript version `es9`
+- Turns on `node`, `browser`, `service-worker` and `worker` environments
+- Turns on `es-modules`
+- Turns on `babel-parser`
+
 ```js
 {
     "extends": [
-        // equivalent to es9, browser, node, es-modules & babel-parser
-        "@moxy/eslint-config-base/preset-web"  
+        "@moxy/eslint-config-isomorphic"
     ]
 }
 ```
+
+## Enhancers for the base config
 
 ### `@moxy/eslint-config-jest`
 
@@ -72,7 +99,7 @@ To make this simpler, we may define **presets for common cases**. At the moment,
 ```js
 {
     "extends": [
-        "@moxy/eslint-config-base/preset-web",
+        "@moxy/eslint-config-node",
         "@moxy/eslint-config-jest"
     ]
 }
@@ -86,7 +113,7 @@ To make this simpler, we may define **presets for common cases**. At the moment,
 ```js
 {
     "extends": [
-        "@moxy/eslint-config-base/preset-web",
+        "@moxy/eslint-config-isomorphic",
         "@moxy/eslint-config-react"
     ]
 }
@@ -100,7 +127,7 @@ To make this simpler, we may define **presets for common cases**. At the moment,
 ```js
 {
     "extends": [
-        "@moxy/eslint-config-base/preset-web",
+        "@moxy/eslint-config-browser",
         "@moxy/eslint-config-vue"
     ]
 }
