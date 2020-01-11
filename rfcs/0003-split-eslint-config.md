@@ -18,7 +18,7 @@ The monolith has several disadvantages:
 - It's becoming difficult to understand which addons we need to activate for a particular project.
 - It's becoming hard to maintain everything, especially tests.
 
-⚠️ To make things worst, the upcoming [`babel-eslint`](https://github.com/babel/babel-eslint) major version, which we use for the `babel-parser` addon, defines `@babel/core` as a peer dependency. Projects that don't use Babel will have to ignore the npm warning: `requires a peer of babel-eslint@^xxx but none was installed.`.
+⚠️ To make things worst, the upcoming [`babel-eslint`](https://github.com/babel/babel-eslint) major version, which we use for the `babel-parser` addon, defines `@babel/core` as a peer dependency. Projects that don't use Babel will have to ignore the npm warning: `requires a peer of babel-eslint@^xxx but none was installed`.
 
 # Detailed design
 
@@ -48,7 +48,7 @@ Base configs sets the foundations in terms of eslint settings. After analyzing, 
 }
 ```
 
-ℹ️ Other ECMAScript versions might be requested by adding `/<version>.js`, like so:
+Other ECMAScript versions might be requested by adding `/<version>.js`, like so:
 
 ```js
 {
@@ -57,6 +57,8 @@ Base configs sets the foundations in terms of eslint settings. After analyzing, 
     ]
 }
 ```
+
+ℹ️ Future versions of Node.js will have support for ES Modules, see https://nodejs.org/api/esm.html. Once that becomes available, we may upgrade `@moxy/eslint-config-node` to use ES Modules. If necessary, we may create `@moxy/eslint-config-node-legacy` for older projects, while keeping the base rules up to date.
 
 ### `@moxy/eslint-config-browser`
 
@@ -76,9 +78,9 @@ Base configs sets the foundations in terms of eslint settings. After analyzing, 
 }
 ```
 
-ℹ️ There's no need to support several ECMAScript versions because it's assumed we are using Babel, which takes care of compatibility.
+As listed above, these type of projects will be using Babel. Since Babel will be taking care of making code compatibility with target browsers, we can always use the latest ECMAScript version.
 
-ℹ️ If you use `workers` or `service-workers`, you will have to enable it manually via the `env` key.
+If the project uses `workers` or `service-workers`, you will have to enable it manually via the `env` key.
 
 ### `@moxy/eslint-config-isomorphic`
 
@@ -98,9 +100,9 @@ Base configs sets the foundations in terms of eslint settings. After analyzing, 
 }
 ```
 
-ℹ️ There's no need to support several ECMAScript versions because it's assumed we are using Babel, which takes care of compatibility.
+As listed above, these type of projects will be using Babel. Since Babel will be taking care of making code compatibility with target browsers, we can always use the latest ECMAScript version.
 
-ℹ️ If you use `workers` or `service-workers`, you will have to enable it manually via the `env` key.
+If the project uses `workers` or `service-workers`, you will have to enable it manually via the `env` key.
 
 ## Enhancers for the base config
 
