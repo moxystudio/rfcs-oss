@@ -58,7 +58,7 @@ To make this simpler, we may define **presets for common cases**. At the moment,
 ```js
 {
     "extends": [
-        // equivalent to es9, isomorphic, es-modules & babel-parser
+        // equivalent to es9, browser, node, es-modules & babel-parser
         "@moxy/eslint-config-base/preset-web"  
     ]
 }
@@ -109,9 +109,9 @@ To make this simpler, we may define **presets for common cases**. At the moment,
 # Drawbacks
 
 - Users have to install more than one eslint config related package
-- Need to become familiar with Lerna
+- We need to become familiar with Lerna
 
-ℹ️ Getting familiar with Lerna might actually be a good thing as it will be useful for us in the future.
+ℹ️ Getting familiar with Lerna might actually be a good thing as it will be useful for future projects.
 
 # Alternatives
 
@@ -120,7 +120,7 @@ To make this simpler, we may define **presets for common cases**. At the moment,
 
 # Adoption strategy
 
-The adoption can be made gradually, by updating projects once we need to contribute to it.
+The adoption can be made gradually, by updating projects once we need to contribute to them.
 
 We may also leverage `screpto` to automate this for us.
 
