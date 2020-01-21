@@ -24,6 +24,10 @@ This proposal is to use [react-multi-carousel](https://github.com/YIZHUANG/react
 
 This example was made using [next-with-moxy](https://github.com/moxystudio/next-with-moxy/) boilerplate.
 
+Preview:
+
+![moxy-carousel](https://user-images.githubusercontent.com/8797405/72811982-9dc5dc80-3c58-11ea-9a26-aaed7a2e25c4.gif)
+
 - `Home.js`
 
 ```jsx
