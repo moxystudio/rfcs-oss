@@ -1,5 +1,5 @@
 - Start Date: 2020-01-21
-- Project: [moxy-carousel](https://github.com/guilhermedeandrade/moxy-carousel)
+- Project: [react-carousel](https://github.com/moxystudio/react-carousel)
 - Reference Issues: [OFICINA-43](https://moxy.atlassian.net/browse/OFICINA-43)
 - Implementation PR: <https://gitlab.com/moxystudio/inoveretail/inovretail-www/merge_requests/102>
 
@@ -26,13 +26,13 @@ This example was made using [next-with-moxy](https://github.com/moxystudio/next-
 
 Preview:
 
-![moxy-carousel](https://user-images.githubusercontent.com/8797405/72811982-9dc5dc80-3c58-11ea-9a26-aaed7a2e25c4.gif)
+![react-carousel](https://user-images.githubusercontent.com/8797405/72811982-9dc5dc80-3c58-11ea-9a26-aaed7a2e25c4.gif)
 
 - `Home.js`
 
 ```jsx
 import React from 'react';
-import Carousel from 'moxy-carousel';
+import Carousel from '@moxy/react-carousel';
 import classNames from 'classnames';
 
 import styles from './Home.module.css';
@@ -182,7 +182,7 @@ If we implement this proposal we will need to have in mind that it will require 
 
 # Unresolved questions
 
-I'm not sure about [removing the original `react-multi-carousel-item--active`](https://github.com/guilhermedeandrade/moxy-carousel/commit/4f7b87429775f18e455779de38d3b8d64647a688) as the default `class` for an active item. Maybe I should keep it and simply append the `class` given through the `activeItemClass`:
+I'm not sure about [removing the original `react-multi-carousel-item--active`](https://github.com/moxystudio/react-carousel/commit/4f7b87429775f18e455779de38d3b8d64647a688) as the default `class` for an active item. Maybe I should keep it and simply append the `class` given through the `activeItemClass`:
 
 ```jsx
 <Carousel activeItemClass="xpto">
