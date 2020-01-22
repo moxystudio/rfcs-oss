@@ -18,7 +18,8 @@ This proposal is to use [react-multi-carousel](https://github.com/YIZHUANG/react
 - Keyboard control to slide
 - Custom styling
 - Accessibility support
-- Framework agnostic - *this is the only one not offered by `react-multi-carrousel`*
+- Lazy loading - *`react-multi-carrousel` does not support it by default*
+- Framework agnostic - *`react-multi-carrousel` was build for React*
 
 # Basic example
 
