@@ -106,7 +106,7 @@ The implementation would rely on the existing eslint plugin: [eslint-plugin-impo
         ```
 
         We also benefit from this rule by having a sorting of relative imports by folder depth as a side effect as noted in the previous example by the order of the `b` and the `a` import.
-    - force a new line between each import group with `'import/order': [1, { 'alphabetize': { 'order': 'asc' } }]`
+    - force a new line between each import group with `'import/order': [1, { 'newlines-between': 'always' }]`
         Example:
         ```js
         import fs from 'fs';
@@ -115,8 +115,8 @@ The implementation would rely on the existing eslint plugin: [eslint-plugin-impo
         import _ from 'lodash';
         import chalk from 'chalk';
 
-        import foo from '../foo';
         import qux from '../../foo/qux';
+        import foo from '../foo';
 
         import bar from './bar';
         import baz from './bar/baz';
