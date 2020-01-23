@@ -59,7 +59,7 @@ Just like any other styling rule, ordering the import statements would benefit c
 This RFC focuses on two new major styling proposals:
 
  1. Group order in import statements (dependencies first, relative imports after, etc) and order them accordingly.
- 1. Within each import group, sort imports alphabetically
+ 1. Within each import group, sort imports alphabetically (with the side effect of sorting relative imports by folder depth as well)
 
 With these two new styles enabled, all files will always have a consistent order and grouping of import statements, no custom ordering will be allowed unless overrides to the eslint rules are in place.
 All of the applied rules would be autofixable, meaning manual sorting of imports would be a thing of the past.
@@ -100,7 +100,12 @@ The implementation would rely on the existing eslint plugin: [eslint-plugin-impo
         import classnames from 'classnames';
         import PropTypes from 'prop-types';
         import React from 'react';
+
+        import b from '../../../b';
+        import a from '../a';
         ```
+
+        We also benefit from this rule by having a sorting of relative imports by folder depth as a side effect as noted in the previous example by the order of the `b` and the `a` import.
     - force a new line between each import group with `'import/order': [1, { 'alphabetize': { 'order': 'asc' } }]`
         Example:
         ```js
