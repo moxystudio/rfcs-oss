@@ -224,7 +224,6 @@ import '../shared/styles/index.css';
 
 import registerGoogleTracking from './ga-tracking';
 import SEO_DATA from './App.data.js';
-
 ```
 
 ### Example 4: [Home.js](https://gitlab.com/moxystudio/thu/thu-japan-2020/blob/master/www/pages/home/Home.js)
