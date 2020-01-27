@@ -56,13 +56,12 @@ Just like any other styling rule, ordering the import statements would benefit c
 
 # Detailed design
 
-This RFC focuses on two new major styling proposals:
+This RFC proposes an initial implementation of rules that will allow to improve the consistency in the import sections. These rules allows to:
 
- 1. Group order in import statements (dependencies first, relative imports after, etc) and order them accordingly.
- 1. Within each import group, sort imports alphabetically (with the side effect of sorting relative imports by folder depth as well)
+> Group order in import statements.
+> Order: Builtin, external, parent relative imports, local imports.
 
-With these two new styles enabled, all files will always have a consistent order and grouping of import statements, no custom ordering will be allowed unless overrides to the eslint rules are in place.
-All of the applied rules would be autofixable, meaning manual sorting of imports would be a thing of the past.
+All of the applied rules would be autofixable, meaning we will not need to worry about ordering the imports manually to fix linting issues.
 
 The implementation would rely on the existing eslint plugin: [eslint-plugin-import](https://github.com/benmosher/eslint-plugin-import).
 
@@ -91,21 +90,6 @@ The implementation would rely on the existing eslint plugin: [eslint-plugin-impo
         // 5. "index" of the current directory
         import main from './';
         ```
-    - within each group, we can sort by alphabetical order by using: `'import/order': [1, { 'alphabetize': { 'order': 'asc' } }]`
-        Example:
-        ```js
-        import fs from 'fs';
-        import path from 'path';
-
-        import classnames from 'classnames';
-        import PropTypes from 'prop-types';
-        import React from 'react';
-
-        import b from '../../../b';
-        import a from '../a';
-        ```
-
-        We also benefit from this rule by having a sorting of relative imports by folder depth as a side effect as noted in the previous example by the order of the `b` and the `a` import.
     - force a new line between each import group with `'import/order': [1, { 'newlines-between': 'always' }]`
         Example:
         ```js
@@ -126,6 +110,8 @@ The implementation would rely on the existing eslint plugin: [eslint-plugin-impo
 
 - [`import/first`](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/first.md): do not allow import statements to be defined outside the import section
 - [`import/no-commonjs`](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-commonjs.md): replace `prefer-import` with `import/no-commonjs`, `import/no-amd` and `import/no-dynamic-require`.
+
+The last two rules `import/first` and `import/no-commonjs` will replace the current module [`eslint-plugin-prefer-import`](https://www.npmjs.com/package/eslint-plugin-prefer-import).
 
 ## Examples
 
@@ -151,9 +137,9 @@ import styles from './Header.css';
 **With Sort Rules**
 
 ```js
-import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import { LogoIcon } from '../icons';
 import SoundToggle from '../sound-toggle';
@@ -162,32 +148,7 @@ import { LanguageSelector } from './components';
 import styles from './Header.css';
 ```
 
-
-### Example 2: [Link.js](https://gitlab.com/moxystudio/thu/thu-japan-2020/blob/master/www/shared/components/link/Link.js)
-
-**Original**
-
-```js
-import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import NextLink from 'next/link';
-
-import styles from './Link.css';
-```
-
-**With Sort Rules**
-
-```js
-import classNames from 'classnames';
-import React from 'react';
-import NextLink from 'next/link';
-import PropTypes from 'prop-types';
-
-import styles from './Link.css';
-```
-
-### Example 3: [App.js](https://gitlab.com/moxystudio/thu/thu-japan-2020/blob/master/www/app/App.js)
+### Example 2: [App.js](https://gitlab.com/moxystudio/thu/thu-japan-2020/blob/master/www/app/App.js)
 
 **Original**
 
@@ -214,10 +175,10 @@ import '../shared/styles/index.css';
 **With Sort Rules**
 
 ```js
-import keyboardOnlyOutlines from 'keyboard-only-outlines';
+import React from 'react';
 import NextApp from 'next/app';
 import Head from 'next/head';
-import React from 'react';
+import keyboardOnlyOutlines from 'keyboard-only-outlines';
 import { withNextIntlSetup } from '@moxy/next-intl';
 
 import nextIntlConfig from '../../intl';
@@ -231,7 +192,7 @@ import registerGoogleTracking from './ga-tracking';
 import SEO_DATA from './App.data.js';
 ```
 
-### Example 4: [Home.js](https://gitlab.com/moxystudio/thu/thu-japan-2020/blob/master/www/pages/home/Home.js)
+### Example 3: [Home.js](https://gitlab.com/moxystudio/thu/thu-japan-2020/blob/master/www/pages/home/Home.js)
 
 **Original**
 
@@ -267,9 +228,9 @@ import styles from './Home.css';
 **With Sort Rules**
 
 ```js
-import classnames from 'classnames';
-import PropTypes from 'prop-types';
 import React, { useState, useCallback, useRef } from 'react';
+import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import { useIntl } from 'react-intl';
 
 import {
@@ -298,9 +259,7 @@ Adaptation to this new order and grouping of the imports might cause some confus
 
 # Alternatives
 
-Instead of applying all the proposed rules, we could only enforce group order or group order and alpha sorting.
-Enforcing group order only for example, would be an improvement to the current situation.
-
+Enable more options to create deterministic sorting within each group: this would disable any custom sorting making the order of the imports always the same across projects.
 
 # Adoption strategy
 
