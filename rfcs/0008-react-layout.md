@@ -125,7 +125,7 @@ const App = ({ Component, pageProps }) => (
         defaultLayout={ <PrimaryLayout /> }
         render={ renderLayout }>
         <Component { ...pageProps } />
-    </Layout>
+    </LayoutManager>
 );
 ```
 
