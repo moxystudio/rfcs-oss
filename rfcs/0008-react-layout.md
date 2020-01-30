@@ -161,16 +161,16 @@ import React, { useCallback } from 'react';
 import { withLayout } from '@moxy/react-layout';
 import { PrimaryLayout } from '../../shared/components';
 
-import styles from './SomePage.module.css';
+import styles from './About.module.css';
 
-const SomePage = ({ setLayoutProps }) => {
+const About = ({ setLayoutProps }) => {
     const handleSetToDark = useCallback(() => {
         setLayoutProps({ variant="dark" });
         // ..or setLayoutProps(() => ({ variant="dark" }));
     }, [setLayoutProps]);
 
     return (
-        <div className={ styles.somePage }>
+        <div className={ styles.about }>
             <h1>Some Page</h1>
             <button onClick={ handleSetToDark }>Enable dark mode</button>
         </div>
