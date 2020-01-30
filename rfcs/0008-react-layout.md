@@ -71,7 +71,7 @@ import { PrimaryLayout } from '../shared/components';
 const App = ({ Component, pageProps }) => (
     <LayoutManager defaultLayout={ <PrimaryLayout /> }>
         <Component { ...pageProps } />
-    </Layout>
+    </LayoutManager>
 );
 ```
 
