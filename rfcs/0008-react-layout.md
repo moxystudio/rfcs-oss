@@ -1,4 +1,4 @@
-- Start Date: 2020-01-30
+- Start Date: 2020-01-28
 - Project: `@moxy/react-layout`
 - Reference Issues:
 - Implementation PR:
@@ -22,7 +22,7 @@ const App = ({ Component, pageProps }) => (
 );
 ```
 
-Use `withLayout` in your page components, e.g.: in `About.js`:
+...and then use `withLayout` in your page components, e.g.: in `About.js`:
 
 ```js
 import React from 'react';
@@ -36,7 +36,7 @@ const About = () => (
     </div>
 );
 
-export default withLayout(() => <PrimaryLayout variant="light" />)(About);
+export default withLayout(<PrimaryLayout variant="light" />)(About);
 ```
 
 # Motivation
@@ -45,8 +45,7 @@ Frontend projects usually have the need to have one or more layouts. Layouts are
 
 Historically, projects overlook the need of multiple layouts or the ability to change layout props between pages. They start off with a simple layout and only later they handle this need, often with poor and non-scalable solutions.
 
-I propose to create a library, called `@moxy/react-layout` that solves the need for multi-layouts and changing layout props dynamically in a consistent and reusable way.
-
+I propose to create a library, called `@moxy/react-layout`, that solves the need for multi-layouts and changing layout props dynamically in a consistent and reusable way.
 
 # Detailed design
 
@@ -82,7 +81,7 @@ Type: `ReactElement`
 
 The children to be rendered inside the layout. The page can either be the `children` itself or a descent and should be wrapped with `withLayout` whenever it needs to choose a layout and tweak its props.
 
-## render
+### render
 
 Type: `function`
 
@@ -100,7 +99,7 @@ The default behavior simply renders the layout and its children, like so:
 ({ Layout, layoutProps, children }) => <Layout { ...layoutProps }>{ children }</Layout>
 ```
 
- However, you may provide a custom render to deal with layout and page transitions. Here's an example that uses [`react-transition-group`](https://reactcommunity.org/react-transition-group/) that applies a simple fade transition between layouts and pages:
+ However, you may provide a custom render to deal with layout and page transitions. Here's an example that uses [`react-transition-group`](https://reactcommunity.org/react-transition-group/) to apply a simple fade transition between layouts and pages:
 
 ```js
 // App.js
@@ -159,7 +158,7 @@ The behavior of `setLayoutProps` is exactly the same as `setState` of class comp
 ```js
 import React from 'react';
 import { withLayout } from '@moxy/react-layout';
-import { PrimaryLayout } from '../../shared/components;
+import { PrimaryLayout } from '../../shared/components';
 
 import styles from './SomePage.module.css';
 
@@ -169,12 +168,13 @@ const SomePage = ({ setLayoutProps }) => {
         // ..or setLayoutProps(() => ({ variant="dark" }));
     }, [setLayoutProps]);
 
-    <div className={ styles.somePage }>
-        <h1>Some Page</h1>
-
-        <button onClick={ handleSetToDark }>Enable dark mode</button>
-    </div>
-);
+    return (
+        <div className={ styles.somePage }>
+            <h1>Some Page</h1>
+            <button onClick={ handleSetToDark }>Enable dark mode</button>
+        </div>
+    );
+};
 
 export default withLayout(<PrimaryLayout variant="light" />)(About);
 ```
@@ -191,7 +191,9 @@ I also considered doing this directly in [`next-with-moxy`](https://github.com/m
 
 # Adoption strategy
 
-Add it to our boilerplate, so that new projects start using it. Whenever necessary, old projects can be easily add `@moxy/react-layout` too.
+Add it to our boilerplate, so that new projects start using it. Whenever necessary, `@moxy/react-layout` can be added to older projects as well.
+
+Furthermore, it seems to integrate well with [RFC 0006](https://github.com/moxystudio/rfcs-oss/pull/6) (page transitions).
 
 # Unresolved questions
 
