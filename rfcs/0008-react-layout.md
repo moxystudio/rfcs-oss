@@ -105,6 +105,7 @@ The default behavior simply renders the layout and its children, like so:
 // App.js
 import { LayoutManager } from '@moxy/react-layout';
 import { PrimaryLayout } from '../shared/components';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 const renderLayout = ({ Layout, layoutProps, layoutKey, pageKey, children }) => (
     <TransitionGroup>
@@ -156,7 +157,7 @@ Allows to dynamically change the layout props. Has the following signature: `(up
 The behavior of `setLayoutProps` is exactly the same as `setState` of class components, except that the `updater` has an extra argument in its signature: `(layoutProps, initialLayoutProps) => object`. The extra argument is named `initialLayoutProps` and contains the layout props that were initially specified in the `layout` parameter of `withLayout(layout)(Page)`.
 
 ```js
-import React from 'react';
+import React, { useCallback } from 'react';
 import { withLayout } from '@moxy/react-layout';
 import { PrimaryLayout } from '../../shared/components';
 
