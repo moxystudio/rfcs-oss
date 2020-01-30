@@ -171,7 +171,7 @@ const About = ({ setLayoutProps }) => {
 
     return (
         <div className={ styles.about }>
-            <h1>Some Page</h1>
+            <h1>About</h1>
             <button onClick={ handleSetToDark }>Enable dark mode</button>
         </div>
     );
