@@ -27,7 +27,7 @@ Use `withLayout` in your page components, e.g.: in `About.js`:
 ```js
 import React from 'react';
 import { withLayout } from '@moxy/react-layout';
-import { PrimaryLayout } from '../../shared/components;
+import { PrimaryLayout } from '../../shared/components';
 import styles from './About.module.css';
 
 const About = () => (
