@@ -9,10 +9,9 @@ Ability to define which layout to use per page.
 
 # Basic example
 
-Setup `<LayoutManager>` in your `App.js` component:
+Setup `<LayoutManager>` in your `_app.js` component:
 
 ```js
-// App.js
 import { LayoutManager } from '@moxy/next-layout';
 import { PrimaryLayout } from '../shared/components';
 
@@ -23,7 +22,7 @@ const App = ({ Component, pageProps }) => (
 );
 ```
 
-...and then use `withLayout` in your page components, e.g.: in `About.js`:
+...and then use `withLayout` in your page components, e.g.: in `about.js`:
 
 ```js
 import React from 'react';
