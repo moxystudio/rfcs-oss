@@ -5,7 +5,7 @@
 
 # Summary
 
-Ability to define which layout to use per page.
+Ability to define which layout to use per page, in Next.js projects.
 
 # Basic example
 
@@ -40,7 +40,7 @@ export default withLayout(<PrimaryLayout variant="light" />)(About);
 
 # Motivation
 
-Web projects usually have the need to have one or more layouts. Layouts are the "shell" of your app and usually contain navigation elements, such as an header and a footer. In the ideal scenario, each page would be able to say which layout they want to use, including tweaking its properties dynamically, such as `variant="light"`. However, we also want to keep the layout persistent in the React tree, to avoid having to remount it every time a user navigate between pages.
+Next.js projects usually have the need to have one or more layouts. Layouts are the "shell" of your app and usually contain navigation elements, such as an header and a footer. In the ideal scenario, each page would be able to say which layout they want to use, including tweaking its properties dynamically, such as `variant="light"`. However, we also want to keep the layout persistent in the React tree, to avoid having to remount it every time a user navigate between pages.
 
 Historically, projects overlook the need of multiple layouts or the ability to change layout props between pages. They start off with a simple layout and only later they handle this need, often with poor and non-scalable solutions.
 
