@@ -27,7 +27,7 @@ const App = ({ Component, pageProps }) => (
 import React from 'react';
 import { withLayout } from '@moxy/next-layout';
 import { PrimaryLayout } from '../components';
-import styles from './About.module.css';
+import styles from './about.module.css';
 
 const About = () => (
     <div className={ styles.about }>
@@ -93,8 +93,8 @@ Passing a custom `children` render prop is useful to add layout and page transit
 ```js
 // pages/_app.js
 import { LayoutManager } from '@moxy/next-layout';
-import { PrimaryLayout } from '../components';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import { PrimaryLayout } from '../components';
 
 const App = ({ Component, pageProps }) => (
     <LayoutManager
@@ -145,11 +145,12 @@ Allows to dynamically change the layout props. Has the following signature: `(up
 The behavior of `setLayoutProps` is exactly the same as `setState` of class components, except that the `updater` has an extra parameter in its signature: `(layoutProps, initialLayoutProps) => object`. The extra parameter is named `initialLayoutProps` and contains the layout props that were initially specified in the `layout` parameter of `withLayout(layout)(Page)`.
 
 ```js
+// pages/about.js
 import React, { useCallback } from 'react';
 import { withLayout } from '@moxy/next-layout';
-import { PrimaryLayout } from '../../shared/components';
+import { PrimaryLayout } from '../components';
 
-import styles from './About.module.css';
+import styles from './about.module.css';
 
 const About = ({ setLayoutProps }) => {
     const handleSetToDark = useCallback(() => {
