@@ -26,7 +26,7 @@ const App = ({ Component, pageProps }) => (
 ```js
 import React from 'react';
 import { withLayout } from '@moxy/next-layout';
-import { PrimaryLayout } from '../../shared/components';
+import { PrimaryLayout } from '../components';
 import styles from './About.module.css';
 
 const About = () => (
@@ -63,9 +63,9 @@ Type: `ReactElement`
 The default layout to be used when a child page doesn't explicitly set one.
 
 ```js
-// App.js
+// pages/_app.js
 import { LayoutManager } from '@moxy/next-layout';
-import { PrimaryLayout } from '../shared/components';
+import { PrimaryLayout } from '../components';
 
 const App = ({ Component, pageProps }) => (
     <LayoutManager
@@ -91,9 +91,9 @@ Its signature is `({ Layout, layoutProps, layoutKey }) => <ReactElement>`, where
 Passing a custom `children` render prop is useful to add layout and page transitions. Here's an example that uses [`react-transition-group`](https://reactcommunity.org/react-transition-group/) to apply a simple fade transition between layouts and pages:
 
 ```js
-// App.js
+// pages/_app.js
 import { LayoutManager } from '@moxy/next-layout';
-import { PrimaryLayout } from '../shared/components';
+import { PrimaryLayout } from '../components';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 const App = ({ Component, pageProps }) => (
