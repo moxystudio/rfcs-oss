@@ -56,6 +56,18 @@ A component that selects the layout based on what pages specify. It keeps the la
 
 Here's the list of props it supports:
 
+### Component
+
+Type: `ReactElementType`
+
+The page component, which maps to your App `Component` prop.
+
+### pageProps
+
+Type: `object`
+
+The page component props, which maps to your App `pageProps` prop.
+
 ### defaultLayout
 
 Type: `ReactElement`
