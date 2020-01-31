@@ -13,7 +13,6 @@ Setup `<LayoutManager>` in your `pages/_app.js` component:
 
 ```js
 import { LayoutManager } from '@moxy/next-layout';
-import { PrimaryLayout } from '../shared/components';
 
 const App = ({ Component, pageProps }) => (
     <LayoutManager
