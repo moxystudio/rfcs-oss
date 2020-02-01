@@ -1,7 +1,7 @@
 - Start Date: 2020-01-28
 - Project: `@moxy/next-layout`
 - Reference Issues:
-- Implementation PR:
+- Implementation PR: https://github.com/moxystudio/next-layout/pull/1
 
 # Summary
 
