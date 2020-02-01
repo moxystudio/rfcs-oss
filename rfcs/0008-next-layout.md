@@ -45,7 +45,7 @@ export default withLayout(<PrimaryLayout variant="light" />)(About);
 
 Next.js projects usually have the need to have one or more layouts. Layouts are the "shell" of your app and usually contain navigation elements, such as an header and a footer. In the ideal scenario, each page would be able to say which layout they want to use, including tweaking its properties dynamically, such as `variant="light"`. However, we also want to keep the layout persistent in the React tree, to avoid having to remount it every time a user navigate between pages.
 
-Historically, projects overlook the need of multiple layouts or the ability to change layout props between pages. They start off with a simple layout and only later they handle this need, often with poor and non-scalable solutions.
+Historically, projects have been overlooking the need of multiple layouts or the ability to change layout props between pages. They start off with a simple layout and only later they handle this need, often with poor and non-scalable solutions.
 
 I propose to create a library called `@moxy/next-layout`, that solves the need for multi-layouts and changing layout props dynamically in a consistent and reusable way.
 
@@ -141,7 +141,7 @@ const App = ({ Component, pageProps }) => (
 export default App;
 ```
 
-## withLayout(layout)(Page)
+## withLayout(layout?)(Page)
 
 Sets up a `Page` component with the ability to select which `layout` to use. Moreover, it injects a `setLayoutProps` prop so that you may dynamically update the layout props.
 
@@ -177,7 +177,7 @@ import styles from './about.module.css';
 const About = ({ setLayoutProps }) => {
     const handleSetToDark = useCallback(() => {
         setLayoutProps({ variant="dark" });
-        // ..or setLayoutProps(() => ({ variant="dark" }));
+        // ..or setLayoutProps((layoutProps) => ({ variant="dark" }));
     }, [setLayoutProps]);
 
     return (
