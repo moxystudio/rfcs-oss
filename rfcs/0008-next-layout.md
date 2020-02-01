@@ -166,6 +166,7 @@ Type: `function`
 Allows to dynamically change the layout props. Has the following signature: `(updater | stateChange, callback?)`.
 
 The behavior of `setLayoutProps` is exactly the same as `setState` of class components, supporting both an object or an updater function.
+
 ```js
 // pages/about.js
 import React, { useCallback } from 'react';
