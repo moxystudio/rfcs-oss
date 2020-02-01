@@ -99,7 +99,7 @@ Its signature is `({ Layout, layoutProps, layoutKey, Component, pageProps, pageK
 - `layoutProps` is the props that should be passed to the layout React component
 - `layoutKey` is a unique string for the layout to be used as `key`
 - `Component` is the page React component that should be rendered
-- `pageProps` is the props that should be passed to the page React component, and already includes `setLayoutProps` if the page was wrapped with [`withLayout`](#with-layout)
+- `pageProps` is the props that should be passed to the page React component, and already includes `setLayoutProps` if the page was wrapped with [`withLayout`](#withlayoutlayoutpage)
 - `pageKey` is a unique string for the page to be used as `key`
 
 Passing a custom `children` render prop is useful to add layout and page transitions. Here's an example that uses [`react-transition-group`](https://reactcommunity.org/react-transition-group/) to apply a simple fade transition between layouts and pages:
