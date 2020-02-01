@@ -12,6 +12,7 @@ Ability to define which layout to use per page, in Next.js projects.
 Setup `<LayoutManager>` in your `pages/_app.js` component:
 
 ```js
+import React from 'react';
 import { LayoutManager } from '@moxy/next-layout';
 
 const App = ({ Component, pageProps }) => (
@@ -19,6 +20,8 @@ const App = ({ Component, pageProps }) => (
         Component={ Component }
         pageProps={ pageProps } />
 );
+
+export default App;
 ```
 
 ...and then use `withLayout` in your page components, e.g.: in `pages/about.js`:
@@ -76,6 +79,7 @@ The default layout to be used when a child page doesn't explicitly set one.
 
 ```js
 // pages/_app.js
+import React from 'react';
 import { LayoutManager } from '@moxy/next-layout';
 import { PrimaryLayout } from '../components';
 
@@ -85,6 +89,8 @@ const App = ({ Component, pageProps }) => (
         pageProps={ pageProps }
         defaultLayout={ <PrimaryLayout /> } />
 );
+
+export default App;
 ```
 
 ### children
@@ -106,6 +112,7 @@ Passing a custom `children` render prop is useful to add layout and page transit
 
 ```js
 // pages/_app.js
+import React from 'react';
 import { LayoutManager } from '@moxy/next-layout';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { PrimaryLayout } from '../components';
@@ -130,6 +137,8 @@ const App = ({ Component, pageProps }) => (
         ) }
     </LayoutManager>
 );
+
+export default App;
 ```
 
 ## withLayout(layout)(Page)
