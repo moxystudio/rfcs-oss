@@ -51,3 +51,25 @@ try {
 ```
 
 What we would like to to instead is mapping our own API to the one from our current error tracking solution. Basically we would only need to change a few lines in a single file.
+
+Another important motivation is the add the ability to toggle the error reporting whenever we want to. Unfortunately, some solutions don't have this feature built-in.
+
+# Detailed design
+
+I haven't started to work on the design yet.
+
+# Drawbacks
+
+The only drawback I can see is the initial effort to design the solution, since the maintenance should be really simple.
+
+# Alternatives
+
+The alternative would be using the API provided directly from the error tracking solutions. However, this is not a good idea as I've already commented about in the "Motivation" section.
+
+# Adoption strategy
+
+If we implement this proposal, the developers would need to check our own module which is probably going to be called `error-tracking.js` and see the available methods. I will probably add this to the RNWM documentation, to make its usage as clear as possible.
+
+# Unresolved questions
+
+- Detailed design
