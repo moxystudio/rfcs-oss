@@ -1,6 +1,6 @@
 - Start Date: 2020-08-13
 - Project: [React Native with MOXY](https://github.com/moxystudio/react-native-with-moxy)
-- Implementation PR: (leave this empty)
+- Implementation PR:
 
 # Summary
 
