@@ -13,7 +13,7 @@ Capturing an error:
 ```js
 import createErrorTracking from "@moxy/react-native-sentry";
 
-const errorTracking = createErrorTracking({ isEnable: true });
+const errorTracking = createErrorTracking({ enabled: true });
 
 try {
   aFunctionThatMightFail();
@@ -73,12 +73,12 @@ const setUserId = (level) =>
 const setLevel = (id) =>
   Sentry.configureScope((scope) => scope.setUser({ id }));
 
-const enable = (isEnabled) => {
-  isTrackingEnabled = isEnabled;
+const enable = (enabled) => {
+  isTrackingEnabled = enabled;
 };
 
-const createErrorTracking = ({ isEnabled = false } = {}) => {
-  let isTrackingEnabled = isEnabled;
+const createErrorTracking = ({ enabled = false } = {}) => {
+  let isTrackingEnabled = enabled;
 
   const createTrackingFn = (fn) => (...args) => {
     if (!isTrackingEnabled) {
@@ -115,12 +115,12 @@ const setLevel = (level) => crashlytics().setAttributes({ level });
 const addBreadcrumbs = ({ scope, message, level = "info" }) =>
   crashlytics().setAttributes({ category: scope, message, level });
 
-const enable = (isEnabled) => {
-  isTrackingEnabled = isEnabled;
+const enable = (enabled) => {
+  isTrackingEnabled = enabled;
 };
 
-const createErrorTracking = ({ isEnabled = false } = {}) => {
-  let isTrackingEnabled = isEnabled;
+const createErrorTracking = ({ enabled = false } = {}) => {
+  let isTrackingEnabled = enabled;
 
   const createTrackingFn = (fn) => (...args) => {
     if (!isTrackingEnabled) {
