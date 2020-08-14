@@ -13,10 +13,12 @@ Capturing an error:
 ```js
 import createErrorTracking from "@moxy/react-native-sentry";
 
+const errorTracking = createErrorTracking({ isEnable: true });
+
 try {
   aFunctionThatMightFail();
 } catch (err) {
-  createErrorTracking(true).captureError(err);
+  errorTracking.captureError(err);
 }
 ```
 
@@ -145,10 +147,12 @@ export default createErrorTracking;
 ```js
 import createErrorTracking from "@moxy/react-native-sentry";
 
+const errorTracking = createErrorTracking({ isEnable: true });
+
 try {
   aFunctionThatMightFail();
 } catch (err) {
-  createErrorTracking(true).captureError(err);
+  errorTracking.captureError(err);
 }
 ```
 
