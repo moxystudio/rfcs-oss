@@ -53,28 +53,47 @@ Example for Sentry:
 ```js
 import * as Sentry from "@sentry/react-native";
 
-const getFunction = (fn, shouldGet) => (shouldGet ? fn : () => {});
+const captureError = Sentry.captureException;
 
-const createErrorTracking = (isEnabled = false) => ({
-  captureError: getFunction(Sentry.captureException, isEnabled),
+// level should be: fatal, error, warning, info, or debug.
+const addBreadcrumb = ({ scope, message, level = "info" }) =>
+  Sentry.addBreadcrumb({
+    category: scope,
+    message,
+    level,
+  });
 
-  log: getFunction(Sentry.captureMessage, isEnabled),
+const setUserId = (level) =>
+  Sentry.configureScope((scope) => scope.setLevel(level));
 
-  addBreadcrumb: ({ category, message, level = "info" }) =>
-    getFunction(
-      Sentry.addBreadcrumb({
-        category,
-        message,
-        level,
-      }),
-      isEnabled
-    ),
+// You can set the severity of an event to one of five values: fatal, error, warning, info, and debug. error is the default, fatal is the most severe, and debug is the least severe.
 
-  setUserId: getFunction(
-    (id) => Sentry.configureScope((scope) => scope.setUser({ id })),
-    isEnabled
-  ),
-});
+const setLevel = (id) =>
+  Sentry.configureScope((scope) => scope.setUser({ id }));
+
+const enable = (isEnabled) => {
+  isTrackingEnabled = isEnabled;
+};
+
+const createErrorTracking = ({ isEnabled = false } = {}) => {
+  let isTrackingEnabled = isEnabled;
+
+  const createTrackingFn = (fn) => (...args) => {
+    if (!isTrackingEnabled) {
+      return Promise.resolve();
+    }
+
+    return fn(...args);
+  };
+
+  return {
+    captureError: createTrackingFn(captureError),
+    addBreadcrumb: createTrackingFn(addBreadcrumb),
+    setUserId: createTrackingFn(setUserId),
+    setLevel: createTrackingFn(setLevel),
+    enable,
+  };
+};
 
 export default createErrorTracking;
 ```
@@ -84,25 +103,41 @@ Example for Firebase Crashlytics:
 ```js
 import crashlytics from "@react-native-firebase/crashlytics";
 
-const getFunction = (fn, shouldGet) => (shouldGet ? fn : () => {});
+const captureError = crashlytics().recordError;
 
-const createErrorTracking = (isEnabled = false) => ({
-  captureError: getFunction(crashlytics().recordError, isEnabled),
+const setUserId = crashlytics().setUserId;
 
-  log: getFunction(crashlytics().log, isEnabled),
+const setLevel = (level) => crashlytics().setAttributes({ level });
 
-  addBreadcrumb: ({ category, message, level = "info" }) =>
-    getFunction(
-      crashlytics().setAttributes({
-        category,
-        message,
-        level,
-      }),
-      isEnabled
-    ),
+// level should be: fatal, error, warning, info, or debug.
+const addBreadcrumbs = ({ scope, message, level = "info" }) =>
+  crashlytics().setAttributes({ category: scope, message, level });
 
-  setUserId: getFunction(crashlytics().setUserId, isEnabled),
-});
+const enable = (isEnabled) => {
+  isTrackingEnabled = isEnabled;
+};
+
+const createErrorTracking = ({ isEnabled = false } = {}) => {
+  let isTrackingEnabled = isEnabled;
+
+  const createTrackingFn = (fn) => (...args) => {
+    if (!isTrackingEnabled) {
+      return Promise.resolve();
+    }
+
+    return fn(...args);
+  };
+
+  return {
+    captureError: createTrackingFn(captureError),
+    addBreadcrumbs: createTrackingFn(addBreadcrumbs),
+    setLevel: createTrackingFn(setLevel),
+    setUserId: createTrackingFn(setUserId),
+    enable,
+  };
+};
+
+export default createErrorTracking;
 ```
 
 ## Usage examples
@@ -150,7 +185,3 @@ The alternative would be using the API provided directly from the error tracking
 # Adoption strategy
 
 If we implement this proposal, the developers would need to check our own module which is probably going to be called `@moxy/react-native-{solution}`, where `solution` would be the name of the chosen error tracking solution (it could be `sentry` for instance) and see the available methods. I will probably add this to the RNWM documentation, to make its usage as clear as possible.
-
-# Unresolved questions
-
-- Detailed design
