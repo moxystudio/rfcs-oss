@@ -117,6 +117,28 @@ try {
 }
 ```
 
+## Regarding the initialization
+
+In my opinion the initialization should not be abstracted, since Sentry and Firebase Crashlytics have quite differente ways of being initialized.
+
+- Sentry:
+
+```js
+import * as Sentry from '@sentry/react-native';
+
+Sentry.init({
+    dsn: // Sentry's DSN,
+});
+```
+
+- Firebase Crashlytics:
+
+```js
+import crashlytics from "@react-native-firebase/crashlytics";
+
+// you can already use it inside the file
+```
+
 # Drawbacks
 
 The only drawback I can see is the initial effort to design the solution, since the maintenance should be really simple.
