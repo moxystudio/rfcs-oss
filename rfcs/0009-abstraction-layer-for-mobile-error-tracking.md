@@ -11,21 +11,13 @@ The feature is an abstraction layer to work with different mobile error tracking
 Capturing an error:
 
 ```js
-import { captureError } from "../shared/utils/error-tracking";
+import createErrorTracking from "@moxy/react-native-sentry";
 
 try {
   aFunctionThatMightFail();
 } catch (err) {
-  captureError(err);
+  createErrorTracking(true).captureError(err);
 }
-```
-
-Throwing a native crash:
-
-```js
-import { nativeCrash } from "../shared/utils/error-tracking";
-
-nativeCrash();
 ```
 
 # Motivation
@@ -50,13 +42,80 @@ try {
 }
 ```
 
-What we would like to to instead is mapping our own API to the one from our current error tracking solution. Basically we would only need to change a few lines in a single file.
+What we would like to to instead is mapping our own API to the one from our current error tracking solution. Basically we would only need to import another module.
 
-Another important motivation is the add the ability to toggle the error reporting whenever we want to. Unfortunately, some solutions don't have this feature built-in.
+Another important motivation is to add the ability to toggle the error reporting whenever we want to. Unfortunately, some solutions don't have this feature built-in, so we will create a way to handle this inside the abstraction layer.
 
 # Detailed design
 
-I haven't started to work on the design yet.
+Example for Sentry:
+
+```js
+import * as Sentry from "@sentry/react-native";
+
+const getFunction = (fn, shouldGet) => (shouldGet ? fn : () => {});
+
+const createErrorTracking = (isEnabled = false) => ({
+  captureError: getFunction(Sentry.captureException, isEnabled),
+
+  log: getFunction(Sentry.captureMessage, isEnabled),
+
+  addBreadcrumb: ({ category, message, level = "info" }) =>
+    getFunction(
+      Sentry.addBreadcrumb({
+        category,
+        message,
+        level,
+      }),
+      isEnabled
+    ),
+
+  setUserId: getFunction(
+    (id) => Sentry.configureScope((scope) => scope.setUser({ id })),
+    isEnabled
+  ),
+});
+
+export default createErrorTracking;
+```
+
+Example for Firebase Crashlytics:
+
+```js
+import crashlytics from "@react-native-firebase/crashlytics";
+
+const getFunction = (fn, shouldGet) => (shouldGet ? fn : () => {});
+
+const createErrorTracking = (isEnabled = false) => ({
+  captureError: getFunction(crashlytics().recordError, isEnabled),
+
+  log: getFunction(crashlytics().log, isEnabled),
+
+  addBreadcrumb: ({ category, message, level = "info" }) =>
+    getFunction(
+      crashlytics().setAttributes({
+        category,
+        message,
+        level,
+      }),
+      isEnabled
+    ),
+
+  setUserId: getFunction(crashlytics().setUserId, isEnabled),
+});
+```
+
+## Usage examples
+
+```js
+import createErrorTracking from "@moxy/react-native-sentry";
+
+try {
+  aFunctionThatMightFail();
+} catch (err) {
+  createErrorTracking(true).captureError(err);
+}
+```
 
 # Drawbacks
 
@@ -68,7 +127,7 @@ The alternative would be using the API provided directly from the error tracking
 
 # Adoption strategy
 
-If we implement this proposal, the developers would need to check our own module which is probably going to be called `error-tracking.js` and see the available methods. I will probably add this to the RNWM documentation, to make its usage as clear as possible.
+If we implement this proposal, the developers would need to check our own module which is probably going to be called `@moxy/react-native-{solution}`, where `solution` would be the name of the chosen error tracking solution (it could be `sentry` for instance) and see the available methods. I will probably add this to the RNWM documentation, to make its usage as clear as possible.
 
 # Unresolved questions
 
