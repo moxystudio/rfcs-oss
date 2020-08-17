@@ -188,4 +188,80 @@ The alternative would be using the API provided directly from the error tracking
 
 # Adoption strategy
 
-If we implement this proposal, the developers would need to check our own module which is probably going to be called `@moxy/react-native-{solution}`, where `solution` would be the name of the chosen error tracking solution (it could be `sentry` for instance) and see the available methods. I will probably add this to the RNWM documentation, to make its usage as clear as possible.
+To integrate those modules `@moxy/react-native-{solution}`, where `solution` would be the name of the chosen error tracking solution (it could be `sentry` for instance), one should start by installing it:
+
+```sh
+npm i @moxy/react-native-sentry
+
+# yarn add @moxy/react-native-sentry
+```
+
+On the `src/app/App.js` file, your should initialize Sentry:
+
+```js
+import * as Sentry from '@sentry/react-native';
+
+Sentry.init({
+  dsn: // Sentry's DSN,
+});
+```
+
+Then you will be able to use the `@moxy/react-native-sentry` module through your entire `App` tree:
+
+Suppose there is a `Button.js` component:
+
+```js
+import React, { useCallback } from "react";
+import { TouchableOpacity, Text } from "react-native";
+import createErrorTracking from "@moxy/react-native-sentry";
+
+const errorTracking = createErrorTracking({ enabled: true });
+
+const aFunctionThatMightFail = () => {
+  throw new Error("Failed");
+};
+
+const Button = () => {
+  const onPress = useCallback(() => {
+    try {
+      aFunctionThatMightFail();
+    } catch (err) {
+      errorTracking.captureError(err);
+    }
+  }, []);
+
+  return (
+    <TouchableOpacity onPress={onPress}>
+      <Text>Press Here</Text>
+    </TouchableOpacity>
+  );
+};
+```
+
+Note that it's possible to enable or disable the error tracking as you wish, so it would be possible to:
+
+```js
+import React, { useState, useCallback } from "react";
+import { View, ouchableOpacity, Text } from "react-native";
+import createErrorTracking from "@moxy/react-native-sentry";
+
+const ToggleErrorTracking = () => {
+  const [enabled, setEnabled] = useState(true);
+
+  const onPress = useCallback(() => {
+    setEnabled((state) => !state);
+  }, [setEnabled]);
+
+  const errorTracking = createErrorTracking({ enabled });
+
+  return (
+    <View>
+      <TouchableOpacity onPress={onPress}>
+        <Text>Toggle Error Tracking</Text>
+      </TouchableOpacity>
+
+      <Text>Error tracking is {enabled ? "enabled" : "disabled"}</Text>
+    </View>
+  );
+};
+```
