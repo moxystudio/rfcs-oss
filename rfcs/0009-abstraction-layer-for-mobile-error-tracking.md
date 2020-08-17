@@ -34,7 +34,7 @@ try {
 }
 ```
 
-However we might decide to use another error tracking solution later, e.g. [Firebase Crashlytics](https://firebase.google.com/products/crashlytics). By doing so we would need to go through all our codebase and change all Sentry's methods to their Crashlytics' counterparts, which would be an unnecessary work.
+However we might decide to use another error tracking solution later, e.g. [Firebase Crashlytics](https://firebase.google.com/products/crashlytics). By doing so we would need to go through all our codebase and change all Sentry's methods to their Crashlytics' counterparts, which would becumbersome and time consuming work.
 
 ```js
 try {
@@ -73,10 +73,6 @@ const setUserId = (level) =>
 const setLevel = (id) =>
   Sentry.configureScope((scope) => scope.setUser({ id }));
 
-const enable = (enabled) => {
-  isTrackingEnabled = enabled;
-};
-
 const createErrorTracking = ({ enabled = false } = {}) => {
   let isTrackingEnabled = enabled;
 
@@ -86,6 +82,10 @@ const createErrorTracking = ({ enabled = false } = {}) => {
     }
 
     return fn(...args);
+  };
+
+  const enable = (enabled) => {
+    isTrackingEnabled = enabled;
   };
 
   return {
@@ -112,12 +112,8 @@ const setUserId = crashlytics().setUserId;
 const setLevel = (level) => crashlytics().setAttributes({ level });
 
 // level should be: fatal, error, warning, info, or debug.
-const addBreadcrumbs = ({ scope, message, level = "info" }) =>
+const addBreadcrumb = ({ scope, message, level = "info" }) =>
   crashlytics().setAttributes({ category: scope, message, level });
-
-const enable = (enabled) => {
-  isTrackingEnabled = enabled;
-};
 
 const createErrorTracking = ({ enabled = false } = {}) => {
   let isTrackingEnabled = enabled;
@@ -130,9 +126,13 @@ const createErrorTracking = ({ enabled = false } = {}) => {
     return fn(...args);
   };
 
+  const enable = (enabled) => {
+    isTrackingEnabled = enabled;
+  };
+
   return {
     captureError: createTrackingFn(captureError),
-    addBreadcrumbs: createTrackingFn(addBreadcrumbs),
+    addBreadcrumb: createTrackingFn(addBreadcrumb),
     setLevel: createTrackingFn(setLevel),
     setUserId: createTrackingFn(setUserId),
     enable,
@@ -147,7 +147,7 @@ export default createErrorTracking;
 ```js
 import createErrorTracking from "@moxy/react-native-sentry";
 
-const errorTracking = createErrorTracking({ isEnable: true });
+const errorTracking = createErrorTracking({ enabled: true });
 
 try {
   aFunctionThatMightFail();
