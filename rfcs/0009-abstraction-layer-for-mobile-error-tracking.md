@@ -53,27 +53,7 @@ Another important motivation is to add the ability to toggle the error reporting
 Example for Sentry:
 
 ```js
-import * as Sentry from "@sentry/react-native";
-
-const captureError = Sentry.captureException;
-
-// level should be: fatal, error, warning, info, or debug.
-const addBreadcrumb = ({ scope, message, level = "info" }) =>
-  Sentry.addBreadcrumb({
-    category: scope,
-    message,
-    level,
-  });
-
-const setUserId = (level) =>
-  Sentry.configureScope((scope) => scope.setLevel(level));
-
-// You can set the severity of an event to one of five values: fatal, error, warning, info, and debug. error is the default, fatal is the most severe, and debug is the least severe.
-
-const setLevel = (id) =>
-  Sentry.configureScope((scope) => scope.setUser({ id }));
-
-const createErrorTracking = ({ enabled = false } = {}) => {
+const createErrorTracking = (sentry, { enabled = false } = {}) => {
   let isTrackingEnabled = enabled;
 
   const createTrackingFn = (fn) => (...args) => {
@@ -83,6 +63,24 @@ const createErrorTracking = ({ enabled = false } = {}) => {
 
     return fn(...args);
   };
+
+  const captureError = sentry.captureException;
+
+  // level should be: fatal, error, warning, info, or debug.
+  const addBreadcrumb = ({ scope, message, level = "info" }) =>
+    sentry.addBreadcrumb({
+      category: scope,
+      message,
+      level,
+    });
+
+  const setUserId = (level) =>
+    sentry.configureScope((scope) => scope.setLevel(level));
+
+  // You can set the severity of an event to one of five values: fatal, error, warning, info, and debug. error is the default, fatal is the most severe, and debug is the least severe.
+
+  const setLevel = (id) =>
+    sentry.configureScope((scope) => scope.setUser({ id }));
 
   const enable = (enabled) => {
     isTrackingEnabled = enabled;
@@ -103,19 +101,7 @@ export default createErrorTracking;
 Example for Firebase Crashlytics:
 
 ```js
-import crashlytics from "@react-native-firebase/crashlytics";
-
-const captureError = crashlytics().recordError;
-
-const setUserId = crashlytics().setUserId;
-
-const setLevel = (level) => crashlytics().setAttributes({ level });
-
-// level should be: fatal, error, warning, info, or debug.
-const addBreadcrumb = ({ scope, message, level = "info" }) =>
-  crashlytics().setAttributes({ category: scope, message, level });
-
-const createErrorTracking = ({ enabled = false } = {}) => {
+const createErrorTracking = (crashlytics, { enabled = false } = {}) => {
   let isTrackingEnabled = enabled;
 
   const createTrackingFn = (fn) => (...args) => {
@@ -125,6 +111,16 @@ const createErrorTracking = ({ enabled = false } = {}) => {
 
     return fn(...args);
   };
+
+  const captureError = crashlytics().recordError;
+
+  const setUserId = crashlytics().setUserId;
+
+  const setLevel = (level) => crashlytics().setAttributes({ level });
+
+  // level should be: fatal, error, warning, info, or debug.
+  const addBreadcrumb = ({ scope, message, level = "info" }) =>
+    crashlytics().setAttributes({ category: scope, message, level });
 
   const enable = (enabled) => {
     isTrackingEnabled = enabled;
@@ -142,18 +138,113 @@ const createErrorTracking = ({ enabled = false } = {}) => {
 export default createErrorTracking;
 ```
 
-## Usage examples
+## Setup
 
 ```js
+// src/shared/hooks/error-tracking.js
+import React, { createContext, useContext } from "react";
+
+const ErrorTrackingContext = createContext();
+
+export const ErrorTrackingProvider = ({ children }) => {
+  return (
+    <ErrorTrackingContext.Provider>{children}</ErrorTrackingContext.Provider>
+  );
+};
+
+export const useErrorTracking = () => {
+  const context = useContext(ErrorTrackingContext);
+
+  if (!context) {
+    throw new Error(
+      "useErrorTracking should be used within an ErrorTrackingProvider"
+    );
+  }
+
+  return context;
+};
+```
+
+```js
+// src/app/App.js
+import * as Sentry from "@sentry/react-native";
 import createErrorTracking from "@moxy/react-native-sentry";
+import { ErrorTrackingProvider } from "../../shared/hooks/error-tracking";
 
-const errorTracking = createErrorTracking({ enabled: true });
+Sentry.init({
+  dsn: // Sentry's DSN,
+});
 
-try {
-  aFunctionThatMightFail();
-} catch (err) {
-  errorTracking.captureError(err);
-}
+const errorTracking = createErrorTracking(Sentry, { enabled: true });
+
+const App = () => (
+  <ErrorTrackingProvider value={errorTracking}>
+    {/* ... */}
+  </ErrorTrackingProvider>
+);
+```
+
+## Usage examples
+
+Suppose there is a `Button.js` component:
+
+```js
+import React, { useCallback } from "react";
+import { TouchableOpacity, Text } from "react-native";
+import { useErrorTracking } from "../hooks/error-tracking";
+
+const errorTracking = useErrorTracking();
+
+const aFunctionThatMightFail = () => {
+  throw new Error("Failed");
+};
+
+const Button = () => {
+  const onPress = useCallback(() => {
+    try {
+      aFunctionThatMightFail();
+    } catch (err) {
+      errorTracking.captureError(err);
+    }
+  }, []);
+
+  return (
+    <TouchableOpacity onPress={onPress}>
+      <Text>Press Here</Text>
+    </TouchableOpacity>
+  );
+};
+```
+
+Note that it's possible to enable or disable the error tracking as you wish, so it would be possible to:
+
+```js
+import React, { useState, useCallback } from "react";
+import { View, ouchableOpacity, Text } from "react-native";
+import createErrorTracking from "@moxy/react-native-sentry";
+import { useErrorTracking } from "../hooks/error-tracking";
+
+const ToggleErrorTracking = () => {
+  const [enabled, setEnabled] = useState(true);
+
+  const errorTracking = useErrorTracking();
+
+  const onPress = useCallback(() => {
+    setEnabled((state) => !state);
+
+    errorTracking.enable(enabled);
+  }, [setEnabled, errorTracking]);
+
+  return (
+    <View>
+      <TouchableOpacity onPress={onPress}>
+        <Text>Toggle Error Tracking</Text>
+      </TouchableOpacity>
+
+      <Text>Error tracking is {enabled ? "enabled" : "disabled"}</Text>
+    </View>
+  );
+};
 ```
 
 ## Regarding the initialization
@@ -196,72 +287,23 @@ npm i @moxy/react-native-sentry
 # yarn add @moxy/react-native-sentry
 ```
 
-On the `src/app/App.js` file, your should initialize Sentry:
+On the `src/app/App.js` file, you should initialize Sentry:
 
 ```js
-import * as Sentry from '@sentry/react-native';
+// src/app/App.js
+import * as Sentry from "@sentry/react-native";
+import createErrorTracking from "@moxy/react-native-sentry";
+import { ErrorTrackingProvider } from "../../shared/hooks/error-tracking";
 
 Sentry.init({
   dsn: // Sentry's DSN,
 });
-```
 
-Then you will be able to use the `@moxy/react-native-sentry` module through your entire `App` tree:
+const errorTracking = createErrorTracking(Sentry, { enabled: true });
 
-Suppose there is a `Button.js` component:
-
-```js
-import React, { useCallback } from "react";
-import { TouchableOpacity, Text } from "react-native";
-import createErrorTracking from "@moxy/react-native-sentry";
-
-const errorTracking = createErrorTracking({ enabled: true });
-
-const aFunctionThatMightFail = () => {
-  throw new Error("Failed");
-};
-
-const Button = () => {
-  const onPress = useCallback(() => {
-    try {
-      aFunctionThatMightFail();
-    } catch (err) {
-      errorTracking.captureError(err);
-    }
-  }, []);
-
-  return (
-    <TouchableOpacity onPress={onPress}>
-      <Text>Press Here</Text>
-    </TouchableOpacity>
-  );
-};
-```
-
-Note that it's possible to enable or disable the error tracking as you wish, so it would be possible to:
-
-```js
-import React, { useState, useCallback } from "react";
-import { View, ouchableOpacity, Text } from "react-native";
-import createErrorTracking from "@moxy/react-native-sentry";
-
-const ToggleErrorTracking = () => {
-  const [enabled, setEnabled] = useState(true);
-
-  const onPress = useCallback(() => {
-    setEnabled((state) => !state);
-  }, [setEnabled]);
-
-  const errorTracking = createErrorTracking({ enabled });
-
-  return (
-    <View>
-      <TouchableOpacity onPress={onPress}>
-        <Text>Toggle Error Tracking</Text>
-      </TouchableOpacity>
-
-      <Text>Error tracking is {enabled ? "enabled" : "disabled"}</Text>
-    </View>
-  );
-};
+const App = () => (
+  <ErrorTrackingProvider value={errorTracking}>
+    {/* ... */}
+  </ErrorTrackingProvider>
+);
 ```
