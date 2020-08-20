@@ -103,35 +103,27 @@ export default createErrorTracking;
 
 ```js
 const createErrorTracking = (crashlytics, { enabled = false } = {}) => {
-  let isTrackingEnabled = enabled;
-
-  const createTrackingFn = (fn) => (...args) => {
-    if (!isTrackingEnabled) {
-      return Promise.resolve();
-    }
-
-    return fn(...args);
+  const enable = async (enabled) => {
+    await crashlytics.setCrashlyticsCollectionEnabled(enabled);
   };
 
-  const captureError = crashlytics().recordError;
+  enable(enabled);
 
-  const setUserId = crashlytics().setUserId;
+  const captureError = crashlytics.recordError;
 
-  const setLevel = (level) => crashlytics().setAttributes({ level });
+  const setUserId = crashlytics.setUserId;
+
+  const setLevel = (level) => crashlytics.setAttributes({ level });
 
   // level should be: fatal, error, warning, info, or debug.
   const addBreadcrumb = ({ scope, message, level = "info" }) =>
-    crashlytics().setAttributes({ category: scope, message, level });
-
-  const enable = (enabled) => {
-    isTrackingEnabled = enabled;
-  };
+    crashlytics.setAttributes({ category: scope, message, level });
 
   return {
-    captureError: createTrackingFn(captureError),
-    addBreadcrumb: createTrackingFn(addBreadcrumb),
-    setLevel: createTrackingFn(setLevel),
-    setUserId: createTrackingFn(setUserId),
+    captureError,
+    addBreadcrumb,
+    setLevel,
+    setUserId,
     enable,
   };
 };
@@ -142,7 +134,8 @@ export default createErrorTracking;
 ## Setup
 
 ```js
-// src/shared/hooks/error-tracking.js
+// src/shared/react-error-tracking.js
+
 import React, { createContext, useContext } from "react";
 
 const ErrorTrackingContext = createContext();
@@ -170,7 +163,7 @@ export const useErrorTracking = () => {
 // src/app/App.js
 import * as Sentry from "@sentry/react-native";
 import createErrorTracking from "@moxy/react-native-sentry";
-import { ErrorTrackingProvider } from "../../shared/hooks/error-tracking";
+import { ErrorTrackingProvider } from "../../shared/react-error-tracking";
 
 Sentry.init({
   dsn: // Sentry's DSN,
@@ -192,22 +185,22 @@ Suppose there is a `Button.js` component:
 ```js
 import React, { useCallback } from "react";
 import { TouchableOpacity, Text } from "react-native";
-import { useErrorTracking } from "../hooks/error-tracking";
-
-const errorTracking = useErrorTracking();
+import { useErrorTracking } from "../react-error-tracking";
 
 const aFunctionThatMightFail = () => {
   throw new Error("Failed");
 };
 
 const Button = () => {
+  const errorTracking = useErrorTracking();
+
   const onPress = useCallback(() => {
     try {
       aFunctionThatMightFail();
     } catch (err) {
       errorTracking.captureError(err);
     }
-  }, []);
+  }, [aFunctionThatMightFail, errorTracking]);
 
   return (
     <TouchableOpacity onPress={onPress}>
@@ -221,9 +214,8 @@ Note that it's possible to enable or disable the error tracking as you wish, so 
 
 ```js
 import React, { useState, useCallback } from "react";
-import { View, ouchableOpacity, Text } from "react-native";
-import createErrorTracking from "@moxy/react-native-sentry";
-import { useErrorTracking } from "../hooks/error-tracking";
+import { View, TouchableOpacity, Text } from "react-native";
+import { useErrorTracking } from "../react-error-tracking";
 
 const ToggleErrorTracking = () => {
   const [enabled, setEnabled] = useState(true);
