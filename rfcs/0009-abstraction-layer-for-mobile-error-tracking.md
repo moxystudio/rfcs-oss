@@ -11,9 +11,10 @@ The feature is an abstraction layer to work with different mobile error tracking
 Capturing an error:
 
 ```js
+import * as Sentry from "@sentry/react-native";
 import createErrorTracking from "@moxy/react-native-sentry";
 
-const errorTracking = createErrorTracking({ enabled: true });
+const errorTracking = createErrorTracking(Sentry, { enabled: true });
 
 try {
   aFunctionThatMightFail();
@@ -50,7 +51,7 @@ Another important motivation is to add the ability to toggle the error reporting
 
 # Detailed design
 
-Example for Sentry:
+## Implementation for Sentry
 
 ```js
 const createErrorTracking = (sentry, { enabled = false } = {}) => {
@@ -64,7 +65,7 @@ const createErrorTracking = (sentry, { enabled = false } = {}) => {
     return fn(...args);
   };
 
-  const captureError = sentry.captureException;
+  const captureError = (error) => sentry.captureException(error);
 
   // level should be: fatal, error, warning, info, or debug.
   const addBreadcrumb = ({ scope, message, level = "info" }) =>
@@ -98,7 +99,7 @@ const createErrorTracking = (sentry, { enabled = false } = {}) => {
 export default createErrorTracking;
 ```
 
-Example for Firebase Crashlytics:
+## Implementation for Firebase Crashlytics
 
 ```js
 const createErrorTracking = (crashlytics, { enabled = false } = {}) => {
@@ -247,11 +248,11 @@ const ToggleErrorTracking = () => {
 };
 ```
 
-## Regarding the initialization
+## SDK initialization
 
 In my opinion the initialization should not be abstracted, since Sentry and Firebase Crashlytics have quite differente ways of being initialized.
 
-- Sentry:
+### Sentry
 
 ```js
 import * as Sentry from '@sentry/react-native';
@@ -261,7 +262,7 @@ Sentry.init({
 });
 ```
 
-- Firebase Crashlytics:
+### Firebase Crashlytics
 
 ```js
 import crashlytics from "@react-native-firebase/crashlytics";
@@ -282,28 +283,7 @@ The alternative would be using the API provided directly from the error tracking
 To integrate those modules `@moxy/react-native-{solution}`, where `solution` would be the name of the chosen error tracking solution (it could be `sentry` for instance), one should start by installing it:
 
 ```sh
-npm i @moxy/react-native-sentry
+npm i @sentry/react-native @moxy/react-native-sentry
 
-# yarn add @moxy/react-native-sentry
-```
-
-On the `src/app/App.js` file, you should initialize Sentry:
-
-```js
-// src/app/App.js
-import * as Sentry from "@sentry/react-native";
-import createErrorTracking from "@moxy/react-native-sentry";
-import { ErrorTrackingProvider } from "../../shared/hooks/error-tracking";
-
-Sentry.init({
-  dsn: // Sentry's DSN,
-});
-
-const errorTracking = createErrorTracking(Sentry, { enabled: true });
-
-const App = () => (
-  <ErrorTrackingProvider value={errorTracking}>
-    {/* ... */}
-  </ErrorTrackingProvider>
-);
+# yarn add @sentry/react-native @moxy/react-native-sentry
 ```
