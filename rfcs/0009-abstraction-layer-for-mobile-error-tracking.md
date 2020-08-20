@@ -287,3 +287,10 @@ npm i @sentry/react-native @moxy/react-native-sentry
 
 # yarn add @sentry/react-native @moxy/react-native-sentry
 ```
+
+# Unresolved questions
+
+## Sentry
+
+- [SDK should be initialized in both JS and Objective-C](https://forum.sentry.io/t/sdk-should-be-initialized-in-both-js-and-objective-c/10731)
+- [Android SDK not working on a React Native app](https://forum.sentry.io/t/android-sdk-not-working-on-a-react-native-app/10748)
