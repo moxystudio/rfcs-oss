@@ -85,6 +85,8 @@ const createErrorTracking = (sentry, { enabled = false } = {}) => {
 
   const enable = (enabled) => {
     isTrackingEnabled = enabled;
+
+    return Promise.resolve()
   };
 
   return {
@@ -103,11 +105,11 @@ export default createErrorTracking;
 
 ```js
 const createErrorTracking = (crashlytics, { enabled = false } = {}) => {
-  const enable = async (enabled) => {
-    await crashlytics.setCrashlyticsCollectionEnabled(enabled);
+  const enable = (enabled) => {
+    crashlytics.setCrashlyticsCollectionEnabled(enabled);
   };
 
-  enable(enabled);
+  await enable(enabled);
 
   const captureError = crashlytics.recordError;
 
@@ -223,7 +225,7 @@ const ToggleErrorTracking = () => {
   const errorTracking = useErrorTracking();
 
   const onPress = useCallback(() => {
-    setEnabled((state) => !state);
+    setEnabled((prevState) => !prevState);
 
     errorTracking.enable(enabled);
   }, [setEnabled, errorTracking]);
@@ -272,13 +274,16 @@ The alternative would be using the API provided directly from the error tracking
 
 # Adoption strategy
 
-To integrate those modules `@moxy/react-native-{solution}`, where `solution` would be the name of the chosen error tracking solution (it could be `sentry` for instance), one should start by installing it:
+New and existing apps are required to install the SDK of the chosen error tracking solution and the respective module which implements the abstraction for such SDK:
 
 ```sh
-npm i @sentry/react-native @moxy/react-native-sentry
+npm i @sentry/react-native @moxy/react-native-{solution}
 
-# yarn add @sentry/react-native @moxy/react-native-sentry
+# yarn add @sentry/react-native @moxy/react-native-{solution}
 ```
+
+where `solution` would be the name of the solution to use, such as `crashlytics` or `sentry`.
+Existing apps would also have to be refactored to start using the API specified here.
 
 # Unresolved questions
 
